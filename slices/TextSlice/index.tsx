@@ -11,6 +11,7 @@ const TextSlice: FC<TextSliceProps> = ({ slice }) => {
       data-slice-variation={slice.variation}
       className="flex flex-col gap-4 leading-relaxed text-ink"
     >
+      {slice.primary.title && <h2>{slice.primary.title}</h2>}
       <PrismicRichText field={slice.primary.text} />
     </section>
   );

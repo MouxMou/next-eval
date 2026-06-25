@@ -106,6 +106,66 @@ interface HomeDocumentData {
  */
 export type HomeDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>;
 
+type MentionsDocumentDataSlicesSlice = TextSliceSlice
+
+/**
+ * Content for Mentions légales documents
+ */
+interface MentionsDocumentData {
+	/**
+	 * Slice Zone field in *Mentions légales*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: mentions.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<MentionsDocumentDataSlicesSlice>;/**
+	 * Meta Title field in *Mentions légales*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: mentions.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+	
+	/**
+	 * Meta Description field in *Mentions légales*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: mentions.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+	
+	/**
+	 * Meta Image field in *Mentions légales*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: mentions.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Mentions légales document from Prismic
+ *
+ * - **API ID**: `mentions`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type MentionsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<MentionsDocumentData>, "mentions", Lang>;
+
 /**
  * Content for Menu documents
  */
@@ -383,12 +443,22 @@ interface TechnoDocumentData {
  */
 export type TechnoDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<TechnoDocumentData>, "techno", Lang>;
 
-export type AllDocumentTypes = HomeDocument | MenuDocument | OffreDocument | OffresDocument | TechnoDocument;
+export type AllDocumentTypes = HomeDocument | MentionsDocument | MenuDocument | OffreDocument | OffresDocument | TechnoDocument;
 
 /**
  * Primary content in *TextSlice → Default → Primary*
  */
 export interface TextSliceSliceDefaultPrimary {
+	/**
+	 * Titre field in *TextSlice → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Titre de la section
+	 * - **API ID Path**: text_slice.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
 	/**
 	 * Texte field in *TextSlice → Default → Primary*
 	 *
@@ -440,6 +510,9 @@ declare module "@prismicio/client" {
 		export type {
 			HomeDocument,
 			HomeDocumentData,
+			MentionsDocument,
+			MentionsDocumentData,
+			MentionsDocumentDataSlicesSlice,
 			MenuDocument,
 			MenuDocumentData,
 			OffreDocument,

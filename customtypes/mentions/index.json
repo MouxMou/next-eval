@@ -1,0 +1,39 @@
+{
+  "format": "page",
+  "id": "mentions",
+  "label": "Mentions légales",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "text_slice": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": { "label": "Meta Title" }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": { "label": "Meta Description" }
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Meta Image",
+          "constraint": { "width": 2400, "height": 1260 }
+        }
+      }
+    }
+  }
+}

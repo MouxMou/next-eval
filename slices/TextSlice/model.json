@@ -12,6 +12,13 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Titre",
+            "placeholder": "Titre de la section"
+          }
+        },
         "text": {
           "type": "StructuredText",
           "config": {

@@ -22,6 +22,7 @@ const routes: Route[] = [
   { type: "offres", path: "/offres" },
   { type: "offre", path: "/offres/:uid" },
   { type: "techno", path: "/technos/:uid" },
+  { type: "mentions", path: "/mentions" },
 ];
 
 /**
