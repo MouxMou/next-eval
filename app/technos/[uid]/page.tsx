@@ -2,13 +2,15 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@/prismicio";
-import { isFilled } from "@prismicio/client";
+import { filter } from "@prismicio/client";
 import OffreCard from "@/composants/ui/OffreCard";
+import Pagination from "@/composants/ui/Pagination";
 import { buildTechnoIndex, getOffreTechnos } from "@/libs/technos";
+import { PAGE_SIZE } from "@/libs/pagination";
 
 type Params = Promise<{ uid: string }>;
+type Search = Promise<{ page?: string }>;
 
-// Une page statique par techno.
 export async function generateStaticParams() {
   const client = createClient();
   const technos = await client.getAllByType("techno");
@@ -31,28 +33,33 @@ export async function generateMetadata({
   };
 }
 
-export default async function TechnoPage({ params }: { params: Params }) {
+export default async function TechnoPage({
+  params,
+  searchParams,
+}: {
+  params: Params;
+  searchParams: Search;
+}) {
   const { uid } = await params;
+  const { page: pageParam } = await searchParams;
+  const currentPage = Math.max(1, Number(pageParam) || 1);
   const client = createClient();
 
   const techno = await client.getByUID("techno", uid).catch(() => null);
   if (!techno) notFound();
 
-  const [offres, technos] = await Promise.all([
-    client.getAllByType("offre", {
+  const [response, technos] = await Promise.all([    
+    client.getByType("offre", {
+      filters: [filter.at("my.offre.technos.techno", techno.id)],
       orderings: [{ field: "my.offre.date", direction: "desc" }],
+      pageSize: PAGE_SIZE,
+      page: currentPage,
     }),
     client.getAllByType("techno"),
   ]);
-  const technoIndex = buildTechnoIndex(technos);
 
-  // Offres reliées à cette techno.
-  const related = offres.filter((offre) =>
-    offre.data.technos.some(
-      ({ techno: rel }) =>
-        isFilled.contentRelationship(rel) && rel.id === techno.id,
-    ),
-  );
+  const related = response.results;
+  const technoIndex = buildTechnoIndex(technos);
 
   return (
     <main className="px-6 md:px-12 py-12 flex flex-col gap-8">
@@ -67,7 +74,8 @@ export default async function TechnoPage({ params }: { params: Params }) {
         <h1>{techno.data.name}</h1>
         <p className="flex items-center gap-2 text-blue font-semibold whitespace-nowrap">
           <span className="material-symbols-outlined text-blue">work</span>
-          {related.length} offre{related.length > 1 ? "s" : ""}
+          {response.total_results_size} offre
+          {response.total_results_size > 1 ? "s" : ""}
         </p>
       </header>
 
@@ -80,6 +88,12 @@ export default async function TechnoPage({ params }: { params: Params }) {
           />
         ))}
       </div>
+
+      <Pagination
+        basePath={`/technos/${uid}`}
+        currentPage={currentPage}
+        totalPages={response.total_pages}
+      />
     </main>
   );
 }
