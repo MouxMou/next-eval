@@ -1,10 +1,12 @@
-input,
-textarea {
-  border: none;
-  outline: none;
-  font: inherit;
-  color: inherit;
-  background: transparent;
+@layer base {
+  input,
+  textarea {
+    border: none;
+    outline: none;
+    font: inherit;
+    color: inherit;
+    background: transparent;
+  }
 }
 
 input::placeholder,

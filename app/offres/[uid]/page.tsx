@@ -6,6 +6,8 @@ import { isFilled } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
 import { components } from "@/slices";
 import { buildTechnoIndex, getOffreTechnos } from "@/libs/technos";
+import CandidatureForm from "@/composants/forms/CandidatureForm";
+import { candidatureAction } from "@/actions/candidature";
 
 type Params = Promise<{ uid: string }>;
 
@@ -43,6 +45,11 @@ export default async function OffrePage({ params }: { params: Params }) {
 
   const technos = await client.getAllByType("techno");
   const offreTechnos = getOffreTechnos(offre, buildTechnoIndex(technos));
+
+  const adminEmails = offre.data.emails
+    .map((e) => e.email)
+    .filter((e): e is string => Boolean(e));
+  const candidature = candidatureAction.bind(null, adminEmails);
 
   const date = offre.data.date
     ? new Date(offre.data.date).toLocaleDateString("fr-FR")
@@ -86,6 +93,8 @@ export default async function OffrePage({ params }: { params: Params }) {
       </header>
 
       <SliceZone slices={offre.data.slices} components={components} />
+
+      <CandidatureForm action={candidature} />
     </main>
   );
 }
