@@ -1,0 +1,52 @@
+@import "tailwindcss";
+@import "./fonts.css";
+@import "./forms.css";
+
+@theme {
+  --color-navy: #0a1a3f;
+  --color-blue: #2563eb;
+  --color-blue-soft: #3b82f6;
+  --color-cream: #f4f2ec;
+  --color-white: #ffffff;
+  --color-ink: #111827;
+  --color-muted: #6b7280;
+  --color-line: #e5e7eb;
+
+  --font-sans: var(--font-poppins);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  flex-grow: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.material-symbols-outlined {
+  font-size: 20px;
+}
