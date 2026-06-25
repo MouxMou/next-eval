@@ -1,0 +1,32 @@
+{
+  "format": "page",
+  "id": "offres",
+  "label": "Offres (page liste)",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "title": {
+        "type": "Text",
+        "config": { "label": "Titre" }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": { "label": "Meta Title" }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": { "label": "Meta Description" }
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Meta Image",
+          "constraint": { "width": 2400, "height": 1260 }
+        }
+      }
+    }
+  }
+}
