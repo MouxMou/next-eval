@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { asText, Content } from "@prismicio/client";
+import BookmarkButton from "./BookmarkButton";
 
 type OffreCardProps = {
   offre: Content.OffreDocument;
@@ -21,7 +22,7 @@ export default function OffreCard({ offre, technos }: OffreCardProps) {
             {offre.data.title}
           </Link>
         </h3>
-        <span className="material-symbols-outlined text-navy">bookmark</span>
+        <BookmarkButton uid={offre.uid} />
       </div>
 
       {date && (

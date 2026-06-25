@@ -94,7 +94,7 @@ export default async function OffrePage({ params }: { params: Params }) {
 
       <SliceZone slices={offre.data.slices} components={components} />
 
-      <CandidatureForm action={candidature} />
+      <CandidatureForm uid={offre.uid} action={candidature} />
     </main>
   );
 }

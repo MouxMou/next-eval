@@ -1,20 +1,31 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import type { CandidatureState } from "@/actions/candidature";
+import { useCandidaturesStore } from "@/store/candidatures";
 
 type CandidatureFormProps = {
+  uid: string;
   action: (
     state: CandidatureState,
     formData: FormData,
   ) => Promise<CandidatureState>;
 };
 
-export default function CandidatureForm({ action }: CandidatureFormProps) {
+export default function CandidatureForm({ uid, action }: CandidatureFormProps) {
   const [state, formAction, pending] = useActionState<
     CandidatureState,
     FormData
   >(action, null);
+  const addCandidature = useCandidaturesStore((s) => s.addCandidature);
+  const handled = useRef<CandidatureState>(null);
+  
+  useEffect(() => {
+    if (state?.success && state !== handled.current) {
+      handled.current = state;
+      addCandidature(uid);
+    }
+  }, [state, uid, addCandidature]);
 
   return (
     <section className="flex flex-col gap-4">
