@@ -3,7 +3,12 @@ import { createClient } from "@/prismicio";
 import { isFilled } from "@prismicio/client";
 import { PrismicNextImage } from "@prismicio/next";
 import OffreCard from "@/composants/ui/OffreCard";
-import { buildTechnoIndex, getOffreTechnos } from "@/libs/technos";
+import TagCloud from "@/composants/ui/TagCloud";
+import {
+  buildTechnoIndex,
+  getOffreTechnos,
+  getTechnoCloud,
+} from "@/libs/technos";
 
 export default async function HomePage() {
   const client = createClient();
@@ -16,6 +21,7 @@ export default async function HomePage() {
   ]);
 
   const technoIndex = buildTechnoIndex(technos);
+  const cloud = getTechnoCloud(offres, technos);
   const latest = offres.slice(0, 6);
 
   return (
@@ -35,6 +41,13 @@ export default async function HomePage() {
         <h1 className="border-b border-navy/20 pb-4">
           Nos dernières opportunités
         </h1>
+
+        {cloud.length > 0 && (
+          <section className="pt-8">
+            <h2 className="mb-4">Explorez par technologie</h2>
+            <TagCloud technos={cloud} />
+          </section>
+        )}
 
         <div className="grid md:grid-cols-3 gap-6 pt-10">
           {latest.map((offre) => (

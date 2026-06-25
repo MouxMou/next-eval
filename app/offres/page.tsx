@@ -1,6 +1,11 @@
 import { createClient } from "@/prismicio";
 import OffreCard from "@/composants/ui/OffreCard";
-import { buildTechnoIndex, getOffreTechnos } from "@/libs/technos";
+import TagCloud from "@/composants/ui/TagCloud";
+import {
+  buildTechnoIndex,
+  getOffreTechnos,
+  getTechnoCloud,
+} from "@/libs/technos";
 
 export default async function OffresPage() {
   const client = createClient();
@@ -13,6 +18,7 @@ export default async function OffresPage() {
   ]);
 
   const technoIndex = buildTechnoIndex(technos);
+  const cloud = getTechnoCloud(offres, technos);
 
   return (
     <main className="px-6 md:px-12 py-12">
@@ -23,6 +29,12 @@ export default async function OffresPage() {
           {offres.length} offre{offres.length > 1 ? "s" : ""}
         </p>
       </header>
+
+      {cloud.length > 0 && (
+        <div className="pt-6">
+          <TagCloud technos={cloud} />
+        </div>
+      )}
 
       <div className="grid md:grid-cols-3 gap-6 pt-10">
         {offres.map((offre) => (
